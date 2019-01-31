@@ -21,7 +21,19 @@ class Signup extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: SEND DATA TO SERVER
+    console.log('In submit fnc, state is', this.state);
+    // SEND DATA TO SERVER
+    axios.post(`${SERVER_URL}/auth/signup`, this.state)
+    .then(response => {
+      console.log('SUCCESS', response);
+      // Assume we have a token that we should save to LS
+      localStorage.setItem('serverToken', response.data.token);
+      // Need to update... somehow
+      this.props.updateUser();
+    })
+    .catch(err => {
+      console.log('ERROR when submitting signup form', err);
+    });
   }
 
   render() {
